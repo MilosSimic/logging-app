@@ -1,0 +1,67 @@
+version: '3.2'
+
+services:
+  es:
+    labels:
+      com.example.service: "es"
+      com.example.description: "For searching and indexing data"
+    image: elasticsearch:5.4
+    container_name: myapp_es
+    volumes:
+      - type: volume
+        source: esdata
+        target: /usr/share/elasticsearch/data/
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+
+  kibana:
+    labels:
+      com.example.service: "kibana"
+      com.example.description: "Data visualisation and for log aggregation"
+    image: kibana:5.4.3
+    container_name: myapp_kibana
+    ports:
+      - "5601:5601"
+    environment:
+      - ELASTICSEARCH_URL=http://es:9200
+    depends_on:
+      - es
+
+  logstash:
+    labels:
+      com.example.service: "logstash"
+      com.example.description: "For logging data"
+    image: logstash:5.4.3
+    container_name: myapp_logstash
+    volumes:
+      - ./:/logstash_dir
+    command: logstash -f /logstash_dir/logstash.conf
+    depends_on:
+      - es
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+    ports:
+      - "5959:5959"
+
+  web:
+    container_name: myapp_web
+    labels:
+      com.example.service: "web"
+      com.example.description: "Use for the main web process"
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - 8000:8000
+    logging:
+      driver: "json-file"
+    depends_on:
+      - es
+      - kibana
+
+volumes:
+ dbdata:
+ esdata:
+
