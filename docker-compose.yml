@@ -1,6 +1,17 @@
 version: '3.2'
 
 services:
+  db:
+    restart: always
+    image: postgres
+    container_name: myapp_db
+    volumes:
+      - type: volume
+        source: dbdata
+        target: /pg_data
+    ports:
+      - "8001:5432"
+
   es:
     labels:
       com.example.service: "es"
@@ -52,12 +63,13 @@ services:
       com.example.service: "web"
       com.example.description: "Use for the main web process"
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    command: ["./wait_for_postgres.sh"]
     ports:
       - 8000:8000
     logging:
       driver: "json-file"
     depends_on:
+      - db
       - es
       - kibana
 

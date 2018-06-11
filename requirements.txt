@@ -1,4 +1,5 @@
 Django==1.11.13
+psycopg2==2.7.4
 python-json-logger==0.1.8
 python-logstash==0.4.6
 pytz==2018.4
