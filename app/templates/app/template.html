@@ -1,0 +1,9 @@
+{% if comments %}
+<ul>
+    {% for c in comments %}
+    <li>{{ c.text }}</li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No comments are available.</p>
+{% endif %}
