@@ -6,9 +6,7 @@ services:
     image: postgres
     container_name: myapp_db
     volumes:
-      - type: volume
-        source: dbdata
-        target: /pg_data
+      - ./pgdata:/var/lib/postgresql/data
     ports:
       - "8001:5432"
 
@@ -19,9 +17,7 @@ services:
     image: elasticsearch:5.4
     container_name: myapp_es
     volumes:
-      - type: volume
-        source: esdata
-        target: /usr/share/elasticsearch/data/
+      - ./esdata:/usr/share/elasticsearch/data/
     ports:
       - "9200:9200"
       - "9300:9300"
@@ -74,6 +70,5 @@ services:
       - kibana
 
 volumes:
- dbdata:
  esdata:
 
