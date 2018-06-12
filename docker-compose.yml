@@ -44,7 +44,7 @@ services:
     image: logstash:5.4.3
     container_name: myapp_logstash
     volumes:
-      - ./:/logstash_dir
+      - ./config/logstash:/logstash_dir
     command: logstash -f /logstash_dir/logstash.conf
     depends_on:
       - es
@@ -60,8 +60,8 @@ services:
       com.example.description: "Use for the main web process"
     build: .
     command: ["./wait_for_postgres.sh"]
-    ports:
-      - 8000:8000
+    expose:
+      - 8000
     logging:
       driver: "json-file"
     depends_on:
@@ -69,6 +69,13 @@ services:
       - es
       - kibana
 
-volumes:
- esdata:
-
+  nginx:
+    image: nginx
+    container_name: myapp_nginx
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app:/code
+      - ./config/nginx:/etc/nginx/conf.d
+    depends_on:
+      - web
