@@ -62,12 +62,16 @@ services:
     command: ["./wait_for_postgres.sh"]
     expose:
       - 8000
+    volumes:
+      - ./static:/code/app/static
     logging:
       driver: "json-file"
     depends_on:
       - db
       - es
       - kibana
+    links:
+      - redis
 
   nginx:
     image: nginx
@@ -75,7 +79,13 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./app:/code
       - ./config/nginx:/etc/nginx/conf.d
+      - ./static:/code/app/static
     depends_on:
       - web
+
+  redis:
+    image: redis
+    container_name: myapp_redis
+    expose:
+      - '6379'

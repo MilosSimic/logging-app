@@ -1,6 +1,7 @@
 Django==1.11.13
+django-redis==4.9.0
 gunicorn==19.8.1
-psycopg2-binary==2.7.4
+psycopg2==2.7.4
 python-json-logger==0.1.8
 python-logstash==0.4.6
 pytz==2018.4

@@ -1,3 +1,12 @@
+<html>
+    <head>
+        {% load static %}
+    </head>
+
+    <body>
+
+<img src="{% static "app/image.jpg" %}" alt="My image"/>
+
 {% if comments %}
 <ul>
     {% for c in comments %}
@@ -7,3 +16,6 @@
 {% else %}
 <p>No comments are available.</p>
 {% endif %}
+
+    </body>
+</html>
