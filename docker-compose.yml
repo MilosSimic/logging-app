@@ -1,6 +1,8 @@
 version: '3.2'
 
 services:
+
+# Postres as a main storage
   db:
     restart: always
     image: postgres
@@ -10,6 +12,7 @@ services:
     ports:
       - "8001:5432"
 
+# ELK stack for logging
   es:
     labels:
       com.example.service: "es"
@@ -53,6 +56,7 @@ services:
     ports:
       - "5959:5959"
 
+# Django application
   web:
     container_name: myapp_web
     labels:
@@ -63,7 +67,7 @@ services:
     expose:
       - 8000
     volumes:
-      - ./static:/code/app/static
+      - ./static:/code/app/static #must be same as nginx!
     logging:
       driver: "json-file"
     depends_on:
@@ -73,6 +77,7 @@ services:
     links:
       - redis
 
+# Nginx as a web server and reverse proxy
   nginx:
     image: nginx
     container_name: myapp_nginx
@@ -80,12 +85,41 @@ services:
       - "8000:8000"
     volumes:
       - ./config/nginx:/etc/nginx/conf.d
-      - ./static:/code/app/static
+      - ./static:/code/app/static #must be same as web!
     depends_on:
       - web
 
+# redis as a Django cache store
   redis:
     image: redis
     container_name: myapp_redis
     expose:
       - '6379'
+
+# TICK stack for metrics and grafana for visualisation
+  influxdb:
+    container_name: myapp_influxdb
+    image: influxdb:1.0.2
+    ports:
+      - "8083:8083"
+      - "8086:8086"
+    volumes:
+      - ./influxdb:/var/lib/influxdb
+    restart: always
+
+  grafana:
+    container_name: myapp_grafana
+    image: grafana/grafana:4.3.2
+    ports:
+      - "3000:3000"
+    links:
+      - influxdb
+    restart: always
+
+  telegraf:
+    container_name: myapp_telegraf
+    image: telegraf:1.3.3
+    volumes:
+      - ./config/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: always
