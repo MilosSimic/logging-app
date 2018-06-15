@@ -1,22 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-#cacheing
-from django.conf import settings
-from django.core.cache.backends.base import DEFAULT_TIMEOUT
-from django.shortcuts import render
-from django.core.cache import cache
-
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import render
 
-from django.core.serializers import serialize, deserialize
-
 # Django model
 from .models import Comment
-
-CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 
 # Create your views here.
 def home_view(request):
@@ -28,19 +18,8 @@ def test(request):
 def about(request):
     return HttpResponse("about page")
 
-# RUN FASTER YOU SON OF A B... :D!
 def list_all(request):
-    comments = None
-    if 'comments' in cache:
-        ser = cache.get('comments')
-        comments = deserialize("json", ser)
-
-    else:
-        comments = Comment.objects.all()
-        ser = serialize("json", comments)
-
-        cache.set("comments", ser, CACHE_TTL)
-
+    comments = Comment.objects.all()
     context = {
         'comments': comments,
     }
