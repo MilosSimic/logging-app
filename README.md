@@ -12,7 +12,7 @@ Simple test app that logs user activity from Django app to ELK stack using Docke
 - Kibana dashboard: http://localhost:5601
 - Influx dashboard: http://localhost:8083 (vm_metrics, docker_metrics) (show measurements)
 - Grafana dashboard: http://localhost:3000 (admin, admin)
-- App: http://localhost:8000 [/about, /test]
+- App: http://localhost:8000 [/about, /test, /list_all/] **list_all serve static files over nginx**
 
 # Grafana notes
 - For Grafana to show results, choose _Datasource_ add some (vm_metrics, docker_metrics) or both if you want to use more than one source. 
