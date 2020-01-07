@@ -29,6 +29,10 @@ Simple test app that logs user activity from Django app to ELK stack using Docke
 # Gunicorn
 Check [gunicorn](https://github.com/MilosSimic/logging-app/blob/master/start.sh) setup
 
+## Travis tutorial
+- Tutorial for travis CICD can be found [here](https://github.com/MilosSimic/Travis-tutorial)
+- Docker image for Travis CLI can be found [here](https://github.com/MilosSimic/mytravis)
+
 # More materials
 - Grafana create dashboard InfluxDB data [video](https://www.youtube.com/watch?v=FBAKSgWgOz8)
 - Influxdb and grafana by docker [page](https://blog.laputa.io/try-influxdb-and-grafana-by-docker-6b4d50c6a446)
