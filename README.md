@@ -4,9 +4,9 @@
 Simple test app that logs user activity from Django app to ELK stack using Docker.
 
 # Steps
-- Delte pgadata
+- Delete pgadata
 - Remove esdata, influx folder content
-- Watch loags for postress and elastecsearch!
+- Watch the logs for postress and elasticsearch!
 
 # Dashboard access
 - Kibana dashboard: http://localhost:5601
@@ -21,10 +21,10 @@ Simple test app that logs user activity from Django app to ELK stack using Docke
 - For database data choose _vm_metrics_ **or** _docker_metrics_ these are influx names
 
 # Show graph
-- Goto _New Dashboard_ > _Graph_ 
+- Go to _New Dashboard_ > _Graph_ 
 - Click on _Panel Title_ and choose _edit_ 
 - From _default_ choose_value to watch for
-- Than from Select statement choose filed
+- Then from Select statement choose filed
 
 # Gunicorn
 Check [gunicorn](https://github.com/MilosSimic/logging-app/blob/master/start.sh) setup
