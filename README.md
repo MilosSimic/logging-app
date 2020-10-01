@@ -4,9 +4,9 @@
 Simple test app that logs user activity from Django app to ELK stack using Docker.
 
 # Steps
-- Delte pgadata
+- Delete pgadata
 - Remove esdata, influx folder content
-- Watch loags for postress and elastecsearch!
+- Watch loags for postress and elasticsearch!
 
 # Dashboard access
 - Kibana dashboard: http://localhost:5601
