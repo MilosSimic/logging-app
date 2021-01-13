@@ -11,6 +11,9 @@ services:
       - ./pgdata:/var/lib/postgresql/data
     ports:
       - "8001:5432"
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
 
 # ELK stack for logging
   es:
@@ -76,6 +79,9 @@ services:
       - kibana
     links:
       - redis
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
 
 # Nginx as a web server and reverse proxy
   nginx:
